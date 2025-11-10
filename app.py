@@ -34,6 +34,11 @@ else:
 app.secret_key = 'aqsagm'
 db.init_app(app)
 
+##for render tables
+with app.app_context():
+    db.create_all()
+
+
 
 
 ###existing
