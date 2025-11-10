@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-header {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .dashboard-label {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-btn {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.25s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translate(4px, -3px);
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 500px;
+            margin: 150px auto;
+            text-align: center;
+        }
+
+        .dashboard-card h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .dashboard-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .dashboard-buttons a {
+            background: linear-gradient(to right, #4299e1, #3182ce);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s ease;
+            text-align: center;
+        }
+
+        .dashboard-buttons a:hover {
+            background: linear-gradient(to right, #2b6cb0, #2c5282);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-header">
+        <div class="dashboard-label">ADMIN DASHBOARD</div>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+
+    <div class="dashboard-card">
+        <h2>Welcome, Admin!</h2>
+        <div class="dashboard-buttons">
+            <a href="{{ url_for('add_student') }}">Add Student</a>
+            <a href="{{ url_for('update_student') }}">Update Student</a>
+            <a href="{{ url_for('view_students') }}">View Students</a>
+            <a href="{{ url_for('delete_student') }}">Delete Student</a>
+            <a href="{{ url_for('sort_students') }}">Sort Students</a>
+            <a href="{{ url_for('filter_students') }}">Filter Students</a>
+            <a href="{{ url_for('view_statistics') }}">View Statistics</a>
+            <a href="{{ url_for('data_analysis') }}">Data Analysis</a>
+           
+
+        </div>
+    </div>
+
+
+
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

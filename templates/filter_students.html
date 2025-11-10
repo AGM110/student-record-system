@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Filter Students</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      padding: 40px;
+    }
+
+    h2 {
+      color: #2b6cb0;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    select, button, a {
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #f0f8ff;
+      font-size: 15px;
+    }
+
+    button, .btn-blue {
+      background-color: #2b6cb0;
+      color: white;
+      border: none;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .btn-green {
+      background-color: #38a169;
+      color: white;
+      border: none;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .table-container {
+      max-width: 95%;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #2b6cb0;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Filter Students</h2>
+
+<form method="GET">
+  <div class="toolbar">
+    <a href="{{ url_for('dashboard') }}" class="btn-blue">Back</a>
+
+    <select name="year">
+      <option value="">-- Year --</option>
+      {% for y in range(1975, 2026) %}
+        <option value="{{ y }}" {% if params.year==y|string %}selected{% endif %}>{{ y }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="country">
+      <option value="">-- Country --</option>
+      {% for c in countries %}
+        <option value="{{ c }}" {% if params.country==c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="program">
+      <option value="">-- Program --</option>
+      {% for p in programs %}
+        <option value="{{ p }}" {% if params.program==p %}selected{% endif %}>{{ p }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit">Apply</button>
+
+    <a class="btn-green"
+       href="{{ url_for('export_filter',
+                        year=request.args.get('year'),
+                        country=request.args.get('country'),
+                        program=request.args.get('program')) }}">
+       Export CSV
+    </a>
+
+    <a href="{{ url_for('filter_students') }}" class="btn-blue">Reset</a>
+  </div>
+</form>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Code</th>
+        <th>Country</th>
+        <th>Year</th>
+        <th>Program</th>
+        <th>Subject</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.code }}</td>
+        <td>{{ s.country }}</td>
+        <td>{{ s.year }}</td>
+        <td>{{ s.program }}</td>
+        <td>{{ s.subject }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+  
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            padding: 40px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2b6cb0;
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            padding: 12px 20px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            background-color: #f0f8ff;
+        }
+
+        button {
+            background-color: #2b6cb0;
+            color: white;
+            border: none;
+            font-weight: bold;
+        }
+
+        .chart-section {
+            margin: 50px auto;
+            max-width: 700px;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #2b6cb0;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>📊 Student Statistics</h2>
+    <h3>Total Students: {{ total }}</h3>
+
+    <div>
+        <label>View by:</label>
+        <select id="category">
+            <option value="" disabled selected>Choose...</option>
+            <option value="program">Students by Program</option>
+            <option value="year">Students by Year</option>
+            <option value="country">Students by Country</option>
+            <option value="subject">Students by Subject</option>
+        </select>
+
+        <label>View as:</label>
+        <select id="chartType">
+            <option value="" disabled selected>Choose...</option>
+            <option value="bar">Bar Chart</option>
+            <option value="line">Line Chart</option>
+            <option value="pie">Pie Chart</option>
+            <option value="doughnut">Doughnut Chart</option>
+        </select>
+
+        <button onclick="renderChart()">View</button>
+    </div>
+
+    <div class="chart-section">
+        <canvas id="chartCanvas"></canvas>
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="back-button">
+        Back to Dashboard
+    </a>
+
+    <script>
+        const dataSets = {
+            program: {{ programs | tojson | safe }},
+            year: {{ years | tojson | safe }},
+            country: {{ countries | tojson | safe }},
+            subject: {{ subjects | tojson | safe }}
+        };
+
+        let chart;
+
+        function renderChart() {
+            const category = document.getElementById("category").value;
+            const chartType = document.getElementById("chartType").value;
+
+            if (!category || !chartType) {
+                alert("Please select both category and chart type.");
+                return;
+            }
+
+            const dataObj = dataSets[category];
+
+            const labels = Object.keys(dataObj);
+            const values = Object.values(dataObj);
+
+            if (chart) chart.destroy();
+
+            chart = new Chart(document.getElementById("chartCanvas"), {
+                type: chartType,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `Statistics: ${category}`,
+                        data: values,
+                        backgroundColor: chartType === 'pie' || chartType === 'doughnut' ? [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#81c784', '#ba68c8', '#f06292'
+                        ] : 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        fill: chartType === 'line'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: chartType !== 'pie' && chartType !== 'doughnut' ? {
+                        y: { beginAtZero: true }
+                    } : {}
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
+

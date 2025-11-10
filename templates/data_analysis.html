@@ -1,0 +1,119 @@
+ {% extends "base.html" %}
+
+{% block content %}
+<div class="login-container">
+    <h1>📊 Data Analysis</h1>
+
+    <div class="analysis-section">
+        <div class="analysis-card">
+            <h3>📅 Average Students/Year</h3>
+            <p><strong>{{ avg_per_year }}</strong></p>
+        </div>
+
+        <div class="analysis-card">
+            <h3>🌍 Most Common Country</h3>
+            <p><strong>{{ common_country }}</strong></p>
+        </div>
+
+        <div class="analysis-card">
+            <h3>🎓 Program Ratios</h3>
+            <ul>
+                {% for program, percent in program_ratios.items() %}
+                    <li><strong>{{ program }}</strong>: {{ percent }}%</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="analysis-card">
+            <h3>🏅 Top Faculties</h3>
+            <ol>
+                {% for faculty, count in top_faculties %}
+                    <li>{{ faculty }} ({{ count }} students)</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+
+  
+
+
+    <div style="text-align:center; margin-top: 2rem;">
+    <a href="{{ url_for('dashboard') }}" 
+       style="background-color: #2b6cb0; 
+              color: white; 
+              padding: 0.8rem 1.5rem; 
+              font-weight: bold; 
+              font-size: 1rem; 
+              border-radius: 6px; 
+              text-decoration: none; 
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+              transition: transform 0.25s ease;">
+       Back to Dashboard
+    </a>
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<style>
+
+    body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+
+.login-container {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.analysis-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 0.5rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.analysis-card {
+    background: #f9fafb;
+    border-left: 5px solid #2b6cb0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: left;
+    transition: transform 0.2s ease;
+}
+
+.analysis-card:hover {
+    transform: scale(1.02);
+}
+
+.analysis-card h3 {
+    color: #2c5282;
+    margin-bottom: 0.8rem;
+}
+
+.analysis-card p,
+.analysis-card li {
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.analysis-card ul,
+.analysis-card ol {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+</style>
+
+
+{% endblock %} 

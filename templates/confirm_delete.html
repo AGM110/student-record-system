@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Delete</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .confirm-box {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2b6cb0;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .yes-btn {
+            background-color: #e53e3e;
+            color: white;
+        }
+        .no-btn {
+            background-color: #2b6cb0;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="confirm-box">
+    <h2>Are you sure you want to delete {{ student.name }} ({{ student.code }})?</h2>
+    <form method="POST" action="{{ url_for('delete_confirmed') }}">
+        <input type="hidden" name="code" value="{{ student.code }}">
+        <button type="submit" class="btn yes-btn">Yes, Delete</button>
+    </form>
+    <form method="GET" action="{{ url_for('delete_student') }}">
+        <button type="submit" class="btn no-btn">No, Cancel</button>
+    </form>
+</div>
+
+
+<script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+
+</body>
+</html>
